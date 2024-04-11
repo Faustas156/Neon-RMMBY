@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonGenerators.cs" />
+    <Compile Include="UpdateForLevels.cs" />
     <Compile Include="CreateLevel.cs" />
     <Compile Include="LevelSetup.cs" />
     <Compile Include="LevelToggleButton.cs" />

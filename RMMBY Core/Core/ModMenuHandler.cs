@@ -27,6 +27,7 @@ namespace RMMBY
             CreateButtons();
             GetMenus();
             ToggleMenu(0);
+            currentMenu = 0;
 
             modmenu = GameObject.Find("ModMenu").GetComponent<Canvas>();
             float screenHeight = Screen.height;
@@ -48,20 +49,14 @@ namespace RMMBY
                 if (i != 0)
                 {
                     button.transform.Find("Highlight").gameObject.SetActive(false);
-                }
-
-                button.transform.Find("Text (Legacy)").GetComponent<Text>().text = Metadata[i].Title;
-
-                if (Metadata[i].Title.EndsWith("(Update)"))
-                {
-                    button.transform.Find("Text (Legacy)").GetComponent<Text>().color = Color.green;
-                }
+                }  
 
                 button.AddComponent<ModToggleButton>();
 
                 buttons.Add(button);
             }
         }
+
 
         private void GetMenus()
         {
@@ -94,6 +89,7 @@ namespace RMMBY
 
         public GameObject buttonPrefab;
         public GameObject settingPrefab;
+        private int currentMenu = -1;
 
         public static List<MetadataBase> Metadata = new List<MetadataBase>();
         public Text[] modText;

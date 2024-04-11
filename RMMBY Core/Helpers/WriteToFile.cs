@@ -3,7 +3,7 @@ using System.IO;
 
 namespace RMMBY.Helpers
 {
-    internal class WriteToFile
+    internal class WriteToFile //i think this could be scrapped once i'm able to get the GUI reworked LOL
     {
         public static void WriteFile(string file, string[] lines, bool append)
         {
