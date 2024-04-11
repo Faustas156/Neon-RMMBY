@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using ClockStone;
+using MelonLoader;
 using RMMBY.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using TMPro;
-using MelonLoader;
-using ClockStone;
+using UnityEngine;
 
 namespace RMMBY.NeonLevelLoader
 {
@@ -21,7 +21,7 @@ namespace RMMBY.NeonLevelLoader
             playerstart.id = "START";
             playerstart.grantCardsOnTeleport = new PlayerCardData[0];
 
-            if (cardObjects == null)
+            if (cardObjects == null) //i think this just needs to be rewritten (and for the old logic to fuck off cause wtf is this shit)
                 cardObjects = UnityEngine.Object.FindObjectsOfTypeAll(typeof(PlayerCardData));
 
             if (actorData == null)
@@ -106,7 +106,8 @@ namespace RMMBY.NeonLevelLoader
                 customLevel.music = ai.Name;
 
                 GameObject.Find("Audio").GetComponent<Audio>().PlayMusic(ai.Name);
-            } else
+            }
+            else
             {
                 GameData gd = Singleton<Game>.Instance.GetGameData();
 
@@ -212,7 +213,7 @@ namespace RMMBY.NeonLevelLoader
 
                 foreach (UnityEngine.Object obj in cardObjects)
                 {
-                    if(obj.name == cardtype)
+                    if (obj.name == cardtype)
                     {
                         spawner.card = obj as PlayerCardData;
                         break;
@@ -326,7 +327,8 @@ namespace RMMBY.NeonLevelLoader
                 {
                     barrelType = false;
                     objType = objType.Replace("_Standard", "");
-                } else if (obj.name.EndsWith("_Big"))
+                }
+                else if (obj.name.EndsWith("_Big"))
                 {
                     barrelType = true;
                     objType = objType.Replace("_Big", "");

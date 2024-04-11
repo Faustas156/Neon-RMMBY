@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MelonLoader;
+﻿using MelonLoader;
+using System.Collections.Generic;
 using System.IO;
 
 namespace RMMBY.NeonLevelLoader
@@ -101,7 +101,7 @@ namespace RMMBY.NeonLevelLoader
 
             GameData gd = Singleton<Game>.Instance.GetGameData();
 
-            if(!GameDataManager.levelStats.ContainsKey(Melon<Plugin>.Instance.LevelID()))
+            if (!GameDataManager.levelStats.ContainsKey(Melon<Plugin>.Instance.LevelID()))
             {
                 GameDataManager.levelStats.Add(Melon<Plugin>.Instance.LevelID(), new LevelStats());
             }

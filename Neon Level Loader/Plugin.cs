@@ -1,15 +1,15 @@
-﻿using MelonLoader;
+﻿using HarmonyLib;
+using MelonLoader;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using HarmonyLib;
-using System;
-using UnityEngine.SceneManagement;
-using System.IO;
-using System.Collections.Generic;
-using UnityEngine.Scripting;
-using System.Runtime;
 using UnityEngine.Profiling;
+using UnityEngine.SceneManagement;
+using UnityEngine.Scripting;
+using UnityEngine.UI;
 
 namespace RMMBY.NeonLevelLoader
 {
@@ -50,7 +50,7 @@ namespace RMMBY.NeonLevelLoader
         {
             string result = "";
 
-            if(currentLevel != null)
+            if (currentLevel != null)
             {
                 result = string.Concat(currentLevel.Author, currentLevel.Title, currentLevel.Version).Replace(" ", "").Replace("/", "").Replace("\\", "").Replace(":", "").Replace("?", "").Replace("*", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
             }
@@ -62,7 +62,7 @@ namespace RMMBY.NeonLevelLoader
         {
             base.OnLateInitializeMelon();
 
-            GarbageCollector.GCMode = GarbageCollector.Mode.Manual;
+            GarbageCollector.GCMode = GarbageCollector.Mode.Manual; //????
             GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
             GCSettings.LatencyMode = GCLatencyMode.Interactive;
         }
@@ -78,19 +78,11 @@ namespace RMMBY.NeonLevelLoader
 
             if (sceneName == "CustomLevel")
             {
-                LoggerInstance.Msg("Setting Up Level");
 
                 LevelSetup.Setup();
-
-                LoggerInstance.Msg("Setting Up Level");
-
-                ToggleLeaderboardUpload(true);
-
-                LoggerInstance.Msg("Setting Up Level");
-
+                LoggerInstance.Msg("Setting Up Level"); //just do this once, it keeps spamming logs lol
+                ToggleLeaderboardUpload(true);          //sus
                 SetCustomLevelButtons();
-
-                LoggerInstance.Msg("Setting Up Level");
             }
             else if (resultsButtons != null)
             {
@@ -107,7 +99,7 @@ namespace RMMBY.NeonLevelLoader
                 }
             }
 
-            if(sceneName == "CustomLevelMenu")
+            if (sceneName == "CustomLevelMenu")
             {
                 LoggerInstance.Msg("CLM Loaded");
 
@@ -125,8 +117,6 @@ namespace RMMBY.NeonLevelLoader
                 inMenu = true;
                 waitForTitle = false;
 
-                UpdateCheck.UpdateForLevels();
-
                 MenuFunction();
             }
             else inMenu = false;
@@ -139,6 +129,7 @@ namespace RMMBY.NeonLevelLoader
             }
         }
 
+        //check back here in case anything breaks (it looks like it WILL break lol)
         private void MenuFunction()
         {
             if (uploadShouldBeDisabled == 0)
@@ -163,7 +154,7 @@ namespace RMMBY.NeonLevelLoader
                 ButtonGenerators.CreatePause();
             }
 
-            ToggleLeaderboardUpload(false);
+            ToggleLeaderboardUpload(false); //this could also be mega faulty lol
         }
 
         private void GetLeaderboard()
@@ -189,13 +180,14 @@ namespace RMMBY.NeonLevelLoader
             }
         }
 
-        private void ToggleLeaderboardUpload(bool turnOn)
+        private void ToggleLeaderboardUpload(bool turnOn) //SUS AS FUCK!!!!
         {
             if (uploadShouldBeDisabled == 1)
             {
-                if(turnOn) GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
+                if (turnOn) GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
                 else GameDataManager.powerPrefs.dontUploadToLeaderboard = false;
-            } else if (uploadShouldBeDisabled == 2) GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
+            }
+            else if (uploadShouldBeDisabled == 2) GameDataManager.powerPrefs.dontUploadToLeaderboard = true;
         }
 
         public void SetCustomLevelButtons()
@@ -229,7 +221,7 @@ namespace RMMBY.NeonLevelLoader
             waitForTitle = true;
         }
 
-        public override void OnUpdate()
+        public override void OnUpdate() //this seems to cause a lot of issues lol
         {
             base.OnUpdate();
 
@@ -280,7 +272,7 @@ namespace RMMBY.NeonLevelLoader
 
         public void CreateMenuButton()
         {
-            if(!GameObject.Find("CL Button") && !buttonExists)
+            if (!GameObject.Find("CL Button") && !buttonExists)
             {
                 if (!GameObject.Find("Quit Button")) return;
 
@@ -314,7 +306,8 @@ namespace RMMBY.NeonLevelLoader
 
                 buttonExists = true;
                 inMenu = false;
-            } else if (buttonExists)
+            }
+            else if (buttonExists)
             {
                 inMenu = false;
 
@@ -337,11 +330,6 @@ namespace RMMBY.NeonLevelLoader
                 bundle = AssetBundle.LoadFromFile(Path.Combine(path, currentLevel.AssetBundleName));
                 Singleton<Game>.Instance.PlayLevel(string.Concat(currentLevel.Author, currentLevel.Title, currentLevel.Version).Replace(" ", ""), true);
             }
-        }
-
-        public void LoadDiscord()
-        {
-            System.Diagnostics.Process.Start("https://discord.gg/SFnWweK8r9");
         }
 
         [HarmonyPatch(typeof(Leaderboards), "SetLevel", new Type[] { typeof(LevelData), typeof(bool), typeof(bool) })]

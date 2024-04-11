@@ -11,7 +11,7 @@
         public bool Boof { get; set; }
 
 
-        public new static MetadataLevel Load (string path)
+        public new static MetadataLevel Load(string path)
         {
             MetadataLevel metadataLevel = MetadataBase.Load<MetadataLevel>(path);
 

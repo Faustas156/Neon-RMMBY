@@ -14,9 +14,6 @@ namespace RMMBY
         private EnabledMods em;
         private InputHandler inputHandler;
 
-        private bool holdConsoleToggle;
-        private bool consoleHidden;
-
         private string infoText = "";
         private int infoType;
         private bool inInfo;

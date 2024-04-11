@@ -1,11 +1,11 @@
-﻿using RMMBY.Editable;
-using UnityEngine;
-using System.IO;
-using MelonLoader;
+﻿using MelonLoader;
+using RMMBY.Editable;
 using RMMBY.Helpers;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using System.IO;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace RMMBY.NeonLevelLoader
 {
@@ -93,7 +93,7 @@ namespace RMMBY.NeonLevelLoader
             titlePanel.SetActive(false);
 
             GameObject.Find("Audio").GetComponent<Audio>().StopAll(0);
-            GameObject.Find("Audio").GetComponent<Audio>().PlayMusic("MUSIC_STORY_TITLE");
+            GameObject.Find("Audio").GetComponent<Audio>().PlayMusic("MUSIC_STORY_RAVE");
         }
 
         public void Update()
@@ -390,11 +390,6 @@ namespace RMMBY.NeonLevelLoader
                 LoadLevel();
             }
 
-            if (update && Metadata[currentButtonSelect].UpdateURL != "N/A")
-            {
-                System.Diagnostics.Process.Start(Metadata[currentButtonSelect].UpdateURL);
-            }
-
             if (refresh) ReloadLevels();
         }
 
@@ -416,12 +411,14 @@ namespace RMMBY.NeonLevelLoader
                 {
                     levelText[7].text = bTime;
                     SetMedal(StringToSeconds(bTime));
-                } else
+                }
+                else
                 {
                     levelText[7].text = "Not Completed";
                     SetMedal(999999);
                 }
-            } else
+            }
+            else
             {
                 levelText[7].text = "Not Completed";
                 SetMedal(999999);
@@ -511,7 +508,7 @@ namespace RMMBY.NeonLevelLoader
                 pos.x += (buttonXDif * scaleFactor * dirMod);
                 buttonHolder.transform.position = pos;
             }
-            
+
         }
 
         private void LoadLevels()
@@ -571,7 +568,8 @@ namespace RMMBY.NeonLevelLoader
                         {
                             Metadata.Add(MetadataLevel.Load(text));
                         }
-                    } catch
+                    }
+                    catch
                     {
 
                     }
@@ -597,7 +595,7 @@ namespace RMMBY.NeonLevelLoader
                 button.transform.SetParent(buttonHolder.transform);
                 button.transform.SetSiblingIndex(i);
                 button.transform.localPosition = new Vector3(currentX, currentY, 0);
-                if(i != 0)
+                if (i != 0)
                 {
                     button.transform.Find("Highlight").gameObject.SetActive(false);
                 }
