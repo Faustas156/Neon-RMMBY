@@ -6,7 +6,6 @@ using RMMBY.Helpers;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using RMMBY.GameBanana;
 
 namespace RMMBY.NeonLevelLoader
 {
@@ -571,15 +570,6 @@ namespace RMMBY.NeonLevelLoader
                         if (!flag2)
                         {
                             Metadata.Add(MetadataLevel.Load(text));
-
-                            for (int k = 0; k < ModUpdater.modsWithUpdates[1].Count; k++)
-                            {
-                                if (Metadata[j].Title == ModUpdater.modsWithUpdates[1][k])
-                                {
-                                    Metadata[j].UpdateURL = ModUpdater.GetNewUpdateURL("Mod", Metadata[j].GamebananaID);
-                                    Metadata[j].Title = string.Concat(Metadata[j].Title, " (Update)");
-                                }
-                            }
                         }
                     } catch
                     {
@@ -729,8 +719,6 @@ namespace RMMBY.NeonLevelLoader
 
             buttons = new List<GameObject>();
             currentButtonSelect = 0;
-
-            ModUpdater.CheckForUpdates("Levels", 1);
 
             LoadLevels();
 

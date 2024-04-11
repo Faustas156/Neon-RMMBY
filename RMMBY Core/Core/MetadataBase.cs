@@ -16,8 +16,6 @@ namespace RMMBY
         public string Type { get; set; } = "Plugin";
         public bool CustomMenu { get; set; } = false;
         public bool RequiresRestartToUnload { get; set; } = false;
-        public int GamebananaID { get; set; } = -1;
-        public int GamebananaIndex { get; set; } = 0;
         public string UpdateURL { get; set; } = "N/A";
         public string Location { get; private set; }
         public MetadataState State { get; private set; } = MetadataState.Success;

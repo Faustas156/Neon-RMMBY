@@ -4,7 +4,6 @@ using RMMBY.Editable;
 using RMMBY.Helpers;
 using System;
 using System.Runtime.InteropServices;
-using RMMBY.GameBanana;
 using UnityEngine.SceneManagement;
 
 namespace RMMBY
@@ -17,18 +16,12 @@ namespace RMMBY
 
         private bool holdConsoleToggle;
         private bool consoleHidden;
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr GetConsoleWindow();
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         private string infoText = "";
         private int infoType;
         private bool inInfo;
 
         private bool inMenu;
-        private bool discordSet;
 
         public void LoadInfo(string message, int type)
         {
@@ -52,20 +45,15 @@ namespace RMMBY
         {
             base.OnInitializeMelon();
 
-            RegistryHelper.ValidateRegistry();
-
             //ShowWindow(GetConsoleWindow(), 0);
             //consoleHidden = true;
-
-            DiscordFunctions.gameStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             base.OnSceneWasLoaded(buildIndex, sceneName);
 
-            DiscordFunctions.OnSceneChanged();
-
+            // em stands for "enabled mods"
             if (em == null)
             {
                 em = new GameObject().AddComponent<EnabledMods>();
@@ -110,8 +98,6 @@ namespace RMMBY
             {
                 if (!ListenToLoadMenu.setMenuFunction) return;
 
-                ModUpdater.CheckForUpdates("Mods", 0);
-
                 ListenToLoadMenu.UpdateForMods();
 
                 inMenu = true;
@@ -124,32 +110,9 @@ namespace RMMBY
 
             if (inInfo) SetInfo();
 
-            if (DiscordFunctions.useRichPresence && DiscordFunctions.discord != null) DiscordFunctions.OnUpdate();
-
             if (inScene && ListenToLoadMenu.runOnUpdate)
             {
                 ListenToLoadMenu.OnSceneUpdate();
-            }
-
-            if(!inputHandler.toggleConsole) {
-                holdConsoleToggle = false;
-            }
-
-            if (inputHandler.toggleConsole && !holdConsoleToggle)
-            {
-                switch (consoleHidden)
-                {
-                    case true:
-                        ShowWindow(GetConsoleWindow(), 5);
-                        consoleHidden = false;
-                        break;
-                    case false:
-                        ShowWindow(GetConsoleWindow(), 0);
-                        consoleHidden = true;
-                        break;
-                }
-                
-                holdConsoleToggle = true;
             }
         }
 

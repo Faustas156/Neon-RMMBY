@@ -17,22 +17,6 @@ namespace RMMBY
             DontDestroyOnLoad(this);
             GetPath();
             GetEnabledPaths();
-            LoadAllEnabled();
-        }
-
-        private void LoadAllEnabled()
-        {
-            List<string> paths = enabledPaths;
-            for (int i = 0; i < paths.Count; i++)
-            {
-                if (File.Exists(paths[i]))
-                {
-                    RegisterMelon(paths[i]);
-                } else
-                {
-                    RemoveEnabledPath(paths[i]);
-                }
-            }
         }
 
         public void GetPath()
@@ -74,7 +58,6 @@ namespace RMMBY
 
             GetEnabledPaths();
 
-            RegisterMelon(newpath);
         }
 
         internal void RemoveEnabledPath(string newpath)
@@ -85,7 +68,6 @@ namespace RMMBY
 
             GetEnabledPaths();
 
-            UnregisterMelon(newpath);
         }
 
         internal void RemoveAllEnabledPaths()
@@ -111,39 +93,6 @@ namespace RMMBY
             }
 
             return false;
-        }
-
-        public static void RegisterMelon(string newpath)
-        {
-            foreach (MelonBase melonBase in MelonAssembly.LoadMelonAssembly(newpath, true).LoadedMelons)
-            {
-                if (melonBase.Registered)
-                {
-                    Melon<Plugin>.Logger.Msg("Melon '" + melonBase.Info.Name + "' Already Registered");
-                }
-                else
-                {
-                    melonBase.Register();
-                    Melon<Plugin>.Logger.Msg("Registered Melon: " + melonBase.Info.Name);
-                }
-            }
-        }
-
-        public static void UnregisterMelon(string newpath)
-        {
-            foreach (MelonAssembly melonAssembly in MelonAssembly.LoadedAssemblies)
-            {
-                bool flag = melonAssembly.Location == newpath;
-                if (flag)
-                {
-                    foreach (MelonBase melonBase in melonAssembly.LoadedMelons)
-                    {
-                        melonBase.Unregister(null, false);
-
-                        Melon<Plugin>.Logger.Msg("Unregistered Melon: " + melonBase.Info.Name);
-                    }
-                }
-            }
         }
     }
 }

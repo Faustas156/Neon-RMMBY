@@ -296,26 +296,6 @@ namespace RMMBY.NeonLevelLoader
                 MenuScreenTitle ms = GameObject.FindObjectOfType<MenuScreenTitle>();
                 ms.buttonsToLoad.Add(clbutton.GetComponent<MenuButtonHolder>());
 
-                GameObject disButton = IndividualMenuButton("Discord", "Discord Button");
-
-                disButton.GetComponent<MenuButtonHolder>().onClickEvent.RemoveAllListeners();
-                disButton.transform.Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-                disButton.GetComponent<MenuButtonHolder>().onClickEvent.AddListener(delegate { Melon<Plugin>.Instance.LoadDiscord(); });
-                disButton.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { Melon<Plugin>.Instance.LoadDiscord(); });
-
-                disButton.transform.SetSiblingIndex(5);
-
-                ms.buttonsToLoad.Add(disButton.GetComponent<MenuButtonHolder>());
-
-                GameObject modbutton = IndividualMenuButton("Mods", "Mod Button");
-
-                modbutton.GetComponent<MenuButtonHolder>().onClickEvent.RemoveAllListeners();
-                modbutton.transform.Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-                modbutton.GetComponent<MenuButtonHolder>().onClickEvent.AddListener(delegate { LoadMenu(); });
-                modbutton.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { LoadMenu(); });
-
-                modbutton.transform.SetSiblingIndex(4);
-
                 List<MenuButtonHolder> list = new List<MenuButtonHolder>();
 
                 for (int i = 0; i < 3; i++)
@@ -324,7 +304,6 @@ namespace RMMBY.NeonLevelLoader
                 }
 
                 list.Add(ms.buttonsToLoad[5]);
-                list.Add(modbutton.GetComponent<MenuButtonHolder>());
                 list.Add(ms.buttonsToLoad[3]);
                 list.Add(ms.buttonsToLoad[6]);
                 list.Add(ms.buttonsToLoad[4]);

@@ -7,7 +7,6 @@ using System.IO;
 using System.Collections.Generic;
 using MelonLoader;
 using RMMBY.Helpers;
-using RMMBY.GameBanana;
 
 namespace RMMBY
 {
@@ -47,8 +46,6 @@ namespace RMMBY
             catch { DataError(); }
 
             if (error) return;
-
-            LoadMods();
 
             currentY = buttonStart.y;
             currentX = buttonStart.x;
@@ -719,73 +716,6 @@ namespace RMMBY
             modmenu.scaleFactor = scaleFactor;
         }
 
-        private void LoadMods()
-        {
-            List<Text> texts = new List<Text>
-            {
-                GameObject.Find("ModName").GetComponent<Text>(),
-                GameObject.Find("Author").GetComponent<Text>(),
-                GameObject.Find("Description").GetComponent<Text>(),
-                GameObject.Find("Version").GetComponent<Text>()
-            };
-
-            modText = texts.ToArray();
-
-            Metadata.Clear();
-
-            for (int i = 0; i < modText.Length; i++)
-            {
-                modText[i].text = String.Empty;
-                modText[i].color = Color.grey;
-            }
-            string[] files = Directory.GetFiles(modDirectory, "mod.json", SearchOption.AllDirectories);
-            bool flag = files.Length == 0;
-            if (flag)
-            {
-                modText[0].text = "No mods available";
-                modsLoaded = false;
-            }
-            else
-            {
-                int j = 0;
-                while (j < files.Length)
-                {
-                    string text = files[j];
-                    try
-                    {
-                        bool flag2 = text.Remove(0, modDirectory.Length + 1) == "mod.json";
-                        if (!flag2)
-                        {
-                            Metadata.Add(MetadataBase.Load<MetadataBase>(text));
-
-                            for (int k = 0; k < ModUpdater.modsWithUpdates[0].Count; k++)
-                            {
-                                if (Metadata[j].Title == ModUpdater.modsWithUpdates[0][k])
-                                {
-                                    Metadata[j].UpdateURL = ModUpdater.GetNewUpdateURL("Mod", Metadata[j].GamebananaID);
-                                    Metadata[j].Title = string.Concat(Metadata[j].Title, " (Update)");
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-
-                    }
-                    j++;
-                    continue;
-                }
-
-                for (int i = 0; i < modText.Length; i++)
-                {
-                    modText[i].text = String.Empty;
-                    modText[i].color = Color.black;
-                }
-
-                modsLoaded = true;
-            }
-        }
-
         private void SetMenuItemsPosition()
         {
             if (currentMenu == 0)
@@ -951,10 +881,6 @@ namespace RMMBY
 
             buttons = new List<GameObject>();
             currentButtonSelect = 0;
-
-            ModUpdater.CheckForUpdates("Mods", 0);
-
-            LoadMods();
 
             currentY = buttonStart.y;
             currentX = buttonStart.x;
