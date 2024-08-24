@@ -84,10 +84,8 @@ namespace RMMBY.NeonLevelLoader
                 ToggleLeaderboardUpload(true);          //sus
                 SetCustomLevelButtons();
             }
-            else if (resultsButtons != null)
+            else if (resultsButtons != null && resultsButtons.Length != 0)
             {
-                if (resultsButtons.Length > 0)
-                {
                     resultsButtons[0].SetActive(true);
                     resultsButtons[1].SetActive(true);
                     resultsButtons[2].SetActive(false);
@@ -96,15 +94,15 @@ namespace RMMBY.NeonLevelLoader
                     pauseButtons[1].SetActive(true);
                     pauseButtons[2].SetActive(false);
                     pauseButtons[3].SetActive(false);
-                }
             }
 
             if (sceneName == "CustomLevelMenu")
             {
                 LoggerInstance.Msg("CLM Loaded");
 
-                GameObject manager = GameObject.Instantiate(new GameObject());
-                manager.AddComponent<MenuHandler>();
+                UnityEngine.Object.Instantiate(new GameObject()).AddComponent<MenuHandler>();
+                //GameObject manager = GameObject.Instantiate(new GameObject());
+                //manager.AddComponent<MenuHandler>();
 
                 CreateLevel.AddLevelCustomCampaign();
 
@@ -212,27 +210,8 @@ namespace RMMBY.NeonLevelLoader
             }
         }
 
-        public void DoPog()
-        {
-            if (waitForTitle) return;
-
-            MelonLogger.Msg("Poggers! Settings should update now.");
-
-            waitForTitle = true;
-        }
-
         public override void OnUpdate() //this seems to cause a lot of issues lol
         {
-            base.OnUpdate();
-
-            if (garbageTimer > 0) garbageTimer -= Time.deltaTime;
-            else
-            {
-                long mem = Profiler.GetMonoHeapSizeLong();
-                if (mem > collectAfterAllocating) GC.Collect(0);
-                garbageTimer = 30;
-            }
-
             if (inMenu)
             {
                 CreateMenuButton();
@@ -250,8 +229,6 @@ namespace RMMBY.NeonLevelLoader
             {
                 ButtonGenerators.CreatePause();
             }
-
-            ModMenuHandler.onSettingsChanged += () => DoPog();
 
             if (Singleton<Game>.Instance.GetCurrentLevel().levelID == LevelID() && (pauseButtons[1].activeSelf || resultsButtons[1].activeSelf)) SetCustomLevelButtons();
         }
@@ -272,53 +249,54 @@ namespace RMMBY.NeonLevelLoader
 
         public void CreateMenuButton()
         {
-            if (!GameObject.Find("CL Button") && !buttonExists)
+            if (GameObject.Find("CL Button") || buttonExists)
             {
-                if (!GameObject.Find("Quit Button")) return;
-
-                GameObject clbutton = IndividualMenuButton("Custom Levels", "CL Button");
-
-                clbutton.GetComponent<MenuButtonHolder>().onClickEvent.RemoveAllListeners();
-                clbutton.transform.Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-                clbutton.GetComponent<MenuButtonHolder>().onClickEvent.AddListener(delegate { Melon<Plugin>.Instance.LoadMenu(); });
-                clbutton.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { Melon<Plugin>.Instance.LoadMenu(); });
-
-                clbutton.transform.SetSiblingIndex(3);
-
-                MenuScreenTitle ms = GameObject.FindObjectOfType<MenuScreenTitle>();
-                ms.buttonsToLoad.Add(clbutton.GetComponent<MenuButtonHolder>());
-
-                List<MenuButtonHolder> list = new List<MenuButtonHolder>();
-
-                for (int i = 0; i < 3; i++)
+                if (buttonExists)
                 {
-                    list.Add(ms.buttonsToLoad[i]);
+                    inMenu = false;
+                    UnityEngine.Object.FindObjectOfType<MenuScreenTitle>().LoadButtons();
                 }
-
-                list.Add(ms.buttonsToLoad[5]);
-                list.Add(ms.buttonsToLoad[3]);
-                list.Add(ms.buttonsToLoad[6]);
-                list.Add(ms.buttonsToLoad[4]);
-
-                ms.buttonsToLoad = list;
-
-                ms.LoadButtons();
-
-                buttonExists = true;
-                inMenu = false;
+                return;
             }
-            else if (buttonExists)
+            if (!GameObject.Find("Quit Button")) return;
+
+            GameObject clbutton = IndividualMenuButton("Custom Levels", "CL Button");
+
+            clbutton.GetComponent<MenuButtonHolder>().onClickEvent.RemoveAllListeners();
+            clbutton.transform.Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
+            clbutton.GetComponent<MenuButtonHolder>().onClickEvent.AddListener(delegate { Melon<Plugin>.Instance.LoadMenu(); });
+            clbutton.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { Melon<Plugin>.Instance.LoadMenu(); });
+
+            clbutton.transform.SetSiblingIndex(3);
+
+            MenuScreenTitle ms = GameObject.FindObjectOfType<MenuScreenTitle>();
+            ms.buttonsToLoad.Add(clbutton.GetComponent<MenuButtonHolder>());
+
+            List<MenuButtonHolder> list = new List<MenuButtonHolder>();
+
+            for (int i = 0; i < 3; i++)
             {
-                inMenu = false;
-
-                GameObject.FindObjectOfType<MenuScreenTitle>().LoadButtons();
+                list.Add(ms.buttonsToLoad[i]);
             }
-        }
 
-        public void LoadMenu()
-        {
-            LoadModMenu.CheckForBundle("CustomLevelMenu");
-        }
+            list.Add(ms.buttonsToLoad[5]);
+            list.Add(ms.buttonsToLoad[3]);
+            list.Add(ms.buttonsToLoad[6]);
+            list.Add(ms.buttonsToLoad[4]);
+
+            ms.buttonsToLoad = list;
+
+            ms.LoadButtons();
+
+            buttonExists = true;
+            inMenu = false;
+
+            //if (!GameObject.Find("CL Button") && !buttonExists)
+            //{
+            //if (!GameObject.Find("Quit Button")) return;
+            }
+
+        public void LoadMenu() => LoadModMenu.CheckForBundle("CustomLevelMenu");
 
         public void ReloadLevel()
         {
@@ -328,7 +306,7 @@ namespace RMMBY.NeonLevelLoader
 
                 string path = currentLevel.Location;
                 bundle = AssetBundle.LoadFromFile(Path.Combine(path, currentLevel.AssetBundleName));
-                Singleton<Game>.Instance.PlayLevel(string.Concat(currentLevel.Author, currentLevel.Title, currentLevel.Version).Replace(" ", ""), true);
+                Singleton<Game>.Instance.PlayLevel(LevelID(), true, null);
             }
         }
 

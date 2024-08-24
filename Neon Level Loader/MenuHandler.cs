@@ -13,8 +13,6 @@ namespace RMMBY.NeonLevelLoader
     {
         private bool down;
         private bool up;
-        private bool left;
-        private bool right;
         private bool select;
         private bool selectLock = true;
         private bool back;
@@ -78,7 +76,7 @@ namespace RMMBY.NeonLevelLoader
             if (error) return;
 
             LoadLevels();
-            currentY = buttonStart.y;
+            currentY = buttonStart.y;   
             currentX = buttonStart.x;
             buttonPrefab = GameObject.Find("ButtonPrefab");
             buttonHolder = GameObject.Find("ModSelectionMenu").transform.Find("Mask").Find("Buttons").gameObject;
@@ -472,8 +470,8 @@ namespace RMMBY.NeonLevelLoader
 
         private void SetMenuItemsPosition()
         {
-            float currentPos = 0;
             float dirMod = 1;
+            float currentPos = 0;
 
             switch (buttonDir)
             {
@@ -500,13 +498,14 @@ namespace RMMBY.NeonLevelLoader
                 pos.y += (buttonYDif * scaleFactor * dirMod);
                 pos.x -= (buttonXDif * scaleFactor * dirMod);
                 buttonHolder.transform.position = pos;
+                return;
             }
-            else if (currentPos > buttonPeak * scaleFactor)
+            if (currentPos > buttonPeak * scaleFactor)
             {
-                Vector3 pos = buttonHolder.transform.position;
-                pos.y -= (buttonYDif * scaleFactor * dirMod);
-                pos.x += (buttonXDif * scaleFactor * dirMod);
-                buttonHolder.transform.position = pos;
+                Vector3 pos2 = buttonHolder.transform.position;
+                pos2.y -= (buttonYDif * scaleFactor * dirMod);
+                pos2.x += (buttonXDif * scaleFactor * dirMod);
+                buttonHolder.transform.position = pos2;
             }
 
         }
@@ -549,42 +548,30 @@ namespace RMMBY.NeonLevelLoader
                 levelText[i].color = Color.grey;
             }
             string[] files = Directory.GetFiles(levelDirectory, "level.json", SearchOption.AllDirectories);
-            bool flag = files.Length == 0;
-            if (flag)
+            if (files.Length == 0)
             {
                 levelText[0].text = "No Levels Available";
                 levelsLoaded = false;
+                return;
             }
-            else
+            for (int j = 0; j < files.Length; j++)
             {
-                int j = 0;
-                while (j < files.Length)
+                string text = files[j];
+                try
                 {
-                    string text = files[j];
-                    try
+                    if (!(text.Remove(0, this.levelDirectory.Length + 1) == "level.json"))
                     {
-                        bool flag2 = text.Remove(0, levelDirectory.Length + 1) == "level.json";
-                        if (!flag2)
-                        {
-                            Metadata.Add(MetadataLevel.Load(text));
-                        }
+                        MenuHandler.Metadata.Add(MetadataLevel.Load(text));
                     }
-                    catch
-                    {
-
-                    }
-                    j++;
-                    continue;
                 }
-
-                for (int i = 0; i < levelText.Length; i++)
-                {
-                    levelText[i].text = string.Empty;
-                    levelText[i].color = Color.white;
-                }
-
-                levelsLoaded = true;
+                catch { }
             }
+            for (int l = 0; l < levelText.Length; l++)
+            {
+                levelText[l].text = string.Empty;
+                levelText[l].color = Color.white;
+            }
+            levelsLoaded = true;
         }
 
         private void CreateButtons()

@@ -27,8 +27,9 @@ namespace RMMBY.NeonLevelLoader
                 isHighlighted = true;
                 highlight.SetActive(true);
                 unHighlight.SetActive(false);
+                return;
             }
-            else if (isHighlighted && sys.selectedObject != gameObject)
+            if (isHighlighted && sys.selectedObject != gameObject)
             {
                 highlight.SetActive(false);
                 isHighlighted = false;

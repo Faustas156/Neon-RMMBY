@@ -46,9 +46,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>E:\Program Files (x86)\Steam\steamapps\common\Neon White\Neon White_Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RMMBY, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\SteamLibrary\steamapps\common\Neon White\Mods\RMMBY.dll</HintPath>
+    <Reference Include="RMMBY">
+      <HintPath>..\RMMBY.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -91,7 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonGenerators.cs" />
-    <Compile Include="UpdateForLevels.cs" />
     <Compile Include="CreateLevel.cs" />
     <Compile Include="LevelSetup.cs" />
     <Compile Include="LevelToggleButton.cs" />

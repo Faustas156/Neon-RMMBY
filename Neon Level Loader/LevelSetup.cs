@@ -3,6 +3,7 @@ using MelonLoader;
 using RMMBY.Helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using TMPro;
@@ -22,10 +23,10 @@ namespace RMMBY.NeonLevelLoader
             playerstart.grantCardsOnTeleport = new PlayerCardData[0];
 
             if (cardObjects == null) //i think this just needs to be rewritten (and for the old logic to fuck off cause wtf is this shit)
-                cardObjects = UnityEngine.Object.FindObjectsOfTypeAll(typeof(PlayerCardData));
+                cardObjects = Resources.FindObjectsOfTypeAll(typeof(PlayerCardData));
 
             if (actorData == null)
-                actorData = UnityEngine.Object.FindObjectsOfTypeAll(typeof(ActorData))[0] as ActorData;
+                actorData = Resources.FindObjectsOfTypeAll(typeof(ActorData))[0] as ActorData;
 
             List<GameObject> spawnables = ObjectFinders.FindAllObjectsStartsWithName("Spawn_").ToList<GameObject>();
             List<GameObject> cards = ObjectFinders.FindAllObjectsContainingNameInList("_Card_", spawnables);
@@ -43,15 +44,16 @@ namespace RMMBY.NeonLevelLoader
 
         public static void MusicSetup(GameObject tpStart)
         {
+            if (!(tpStart.GetComponent<AudioSource>().clip != null))
+            {
+                Singleton<Game>.Instance.GetGameData().campaigns[2].missionData[0].levels[0].music = "MUSIC_GAMEPLAY_GLASSOCEAN";
+                return;
+            }
+
             if (tpStart.GetComponent<AudioSource>().clip != null)
             {
-                Type t = GameObject.Find("Audio").GetComponent<Audio>().GetType();
-                FieldInfo field = t.GetField("_masterAudioController", BindingFlags.NonPublic | BindingFlags.Instance);
-                AudioController ao = (AudioController)field.GetValue(GameObject.Find("Audio").GetComponent<Audio>());
-
-                t = ao.GetType();
-                field = t.GetField("_audioItems", BindingFlags.NonPublic | BindingFlags.Instance);
-                Dictionary<string, AudioItem> asi = (Dictionary<string, AudioItem>)field.GetValue(ao);
+                AudioController audioController = (AudioController)GameObject.Find("Audio").GetComponent<Audio>().GetType().GetField("_masterAudioController", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(GameObject.Find("Audio").GetComponent<Audio>());
+                Dictionary<string, AudioItem> asi = (Dictionary<string, AudioItem>)audioController.GetType().GetField("_audioItems", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(audioController);
 
                 tpStart.GetComponent<AudioSource>().playOnAwake = false;
                 tpStart.GetComponent<AudioSource>().volume = 0;
@@ -60,11 +62,9 @@ namespace RMMBY.NeonLevelLoader
                 if (asi.ContainsKey(tpStart.GetComponent<AudioSource>().clip.name))
                 {
                     asi[tpStart.GetComponent<AudioSource>().clip.name].subItems[0].Clip = tpStart.GetComponent<AudioSource>().clip;
+                    Singleton<Game>.Instance.GetGameData().campaigns[2].missionData[0].levels[0].music = tpStart.GetComponent<AudioSource>().clip.name;
 
                     GameData gda = Singleton<Game>.Instance.GetGameData();
-
-                    LevelData customLevela = gda.campaigns[2].missionData[0].levels[0];
-                    customLevela.music = tpStart.GetComponent<AudioSource>().clip.name;
 
                     GameObject.Find("Audio").GetComponent<Audio>().PlayMusic(tpStart.GetComponent<AudioSource>().clip.name);
                     return;
@@ -81,29 +81,17 @@ namespace RMMBY.NeonLevelLoader
                 sub.FadeOut = 0.1f;
                 sub.ItemModeAudioID = "";
 
-                t = sub.GetType();
-                field = t.GetField("_item", BindingFlags.NonPublic | BindingFlags.Instance);
-                field.SetValue(sub, ai);
+                sub.GetType().GetField("_item", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(sub, ai);
 
                 ai.subItems = new AudioSubItem[1];
                 ai.subItems[0] = sub;
+                AudioCategory audioCategory = (AudioCategory)asi["MUSIC_GAMEPLAY_OLDCITY"].GetType().GetField("_category", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(asi["MUSIC_GAMEPLAY_OLDCITY"]);
 
-                t = asi["MUSIC_GAMEPLAY_OLDCITY"].GetType();
-                field = t.GetField("_category", BindingFlags.NonPublic | BindingFlags.Instance);
-
-                AudioCategory cat = (AudioCategory)field.GetValue(asi["MUSIC_GAMEPLAY_OLDCITY"]);
-
-                t = ai.GetType();
-                field = t.GetField("_category", BindingFlags.NonPublic | BindingFlags.Instance);
-
-                field.SetValue(ai, cat);
+                ai.GetType().GetField("_category", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ai, audioCategory);
 
                 asi.Add(tpStart.GetComponent<AudioSource>().clip.name, ai);
 
-                GameData gd = Singleton<Game>.Instance.GetGameData();
-
-                LevelData customLevel = gd.campaigns[2].missionData[0].levels[0];
-                customLevel.music = ai.Name;
+                Singleton<Game>.Instance.GetGameData().campaigns[2].missionData[0].levels[0].music = ai.Name;
 
                 GameObject.Find("Audio").GetComponent<Audio>().PlayMusic(ai.Name);
             }
@@ -195,18 +183,18 @@ namespace RMMBY.NeonLevelLoader
             {
                 string cardtype = card.name;
 
-                if (cardtype.EndsWith("Machinegun")) cardtype = "Card_Weapon_Machinegun";
-                else if (cardtype.EndsWith("Pistol")) cardtype = "Card_Weapon_Pistol";
-                else if (cardtype.EndsWith("Rifle")) cardtype = "Card_Weapon_Rifle";
-                else if (cardtype.EndsWith("RocketLauncher")) cardtype = "Card_Weapon_RocketLauncher";
-                else if (cardtype.EndsWith("Shotgun")) cardtype = "Card_Weapon_Shotgun";
-                else if (cardtype.EndsWith("UZI")) cardtype = "Card_Weapon_UZI";
-                else if (cardtype.EndsWith("Katana")) cardtype = "Card_Sidearm_Katana";
-                else if (cardtype.EndsWith("Katana_Miracle")) cardtype = "Card_Sidearm_Katana_Miracle";
-                else if (cardtype.EndsWith("Health")) cardtype = "Card_Item_Health";
-                else if (cardtype.EndsWith("Ammo")) cardtype = "Card_Item_Ammo";
-                else if (cardtype.EndsWith("Memory")) cardtype = "Card_Item_Memory";
-                else if (cardtype.EndsWith("Rapture")) cardtype = "Card_Ability_Rapture";
+                if (cardtype.Contains("Machinegun")) cardtype = "Card_Weapon_Machinegun";
+                else if (cardtype.Contains("Pistol")) cardtype = "Card_Weapon_Pistol";
+                else if (cardtype.Contains("Rifle")) cardtype = "Card_Weapon_Rifle";
+                else if (cardtype.Contains("RocketLauncher")) cardtype = "Card_Weapon_RocketLauncher";
+                else if (cardtype.Contains("Shotgun")) cardtype = "Card_Weapon_Shotgun";
+                else if (cardtype.Contains("UZI")) cardtype = "Card_Weapon_UZI";
+                else if (cardtype.Contains("Katana")) cardtype = "Card_Sidearm_Katana";
+                else if (cardtype.Contains("Katana_Miracle")) cardtype = "Card_Sidearm_Katana_Miracle";
+                else if (cardtype.Contains("Health")) cardtype = "Card_Item_Health";
+                else if (cardtype.Contains("Ammo")) cardtype = "Card_Item_Ammo";
+                else if (cardtype.Contains("Memory")) cardtype = "Card_Item_Memory";
+                else if (cardtype.Contains("Rapture")) cardtype = "Card_Ability_Rapture";
 
                 CardPickupSpawner spawner = card.GetComponent<CardPickupSpawner>();
                 spawner.alwaysSpawnThisTutorialCard = true;
@@ -223,7 +211,15 @@ namespace RMMBY.NeonLevelLoader
                 spawner.offsetHeightFromGround = true;
                 spawner.overrideStartingAmmo = -1;
                 spawner.spawnOnStart = true;
-                spawner.vendingStock = 1;
+                string[] array2 = card.name.Split(new char[] { '/' });
+                if (array2.Length == 1)
+                {
+                    spawner.vendingStock = 1;
+                }
+                else
+                {
+                    spawner.vendingStock = int.Parse(array2[1]);
+                }
             }
         }
 
