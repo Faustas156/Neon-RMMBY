@@ -22,7 +22,7 @@ namespace RMMBY.NeonLevelLoader
             playerstart.id = "START";
             playerstart.grantCardsOnTeleport = new PlayerCardData[0];
 
-            if (cardObjects == null) //i think this just needs to be rewritten (and for the old logic to fuck off cause wtf is this shit)
+            if (cardObjects == null)
                 cardObjects = Resources.FindObjectsOfTypeAll(typeof(PlayerCardData));
 
             if (actorData == null)

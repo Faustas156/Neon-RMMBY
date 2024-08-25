@@ -20,7 +20,7 @@ namespace RMMBY.NeonLevelLoader
                 unHighlight = transform.Find("ChoiceBack").gameObject;
         }
 
-        private void Update() //triple question mark blunder THIS LOOKS SO FUCKING BADDDDDDDDD
+        private void Update() // uhhh wish i could scrap this xD
         {
             if (!isHighlighted && sys.selectedObject == gameObject)
             {

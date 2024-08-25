@@ -62,7 +62,7 @@ namespace RMMBY.NeonLevelLoader
         {
             base.OnLateInitializeMelon();
 
-            GarbageCollector.GCMode = GarbageCollector.Mode.Manual; //????
+            GarbageCollector.GCMode = GarbageCollector.Mode.Manual; 
             GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
             GCSettings.LatencyMode = GCLatencyMode.Interactive;
         }
@@ -126,8 +126,6 @@ namespace RMMBY.NeonLevelLoader
                 garbageTimer = 30;
             }
         }
-
-        //check back here in case anything breaks (it looks like it WILL break lol)
         private void MenuFunction()
         {
             if (uploadShouldBeDisabled == 0)
@@ -178,7 +176,7 @@ namespace RMMBY.NeonLevelLoader
             }
         }
 
-        private void ToggleLeaderboardUpload(bool turnOn) //SUS AS FUCK!!!!
+        private void ToggleLeaderboardUpload(bool turnOn) 
         {
             if (uploadShouldBeDisabled == 1)
             {
