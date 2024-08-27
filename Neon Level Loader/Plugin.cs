@@ -259,6 +259,7 @@ namespace RMMBY.NeonLevelLoader
             if (!GameObject.Find("Quit Button")) return;
 
             GameObject clbutton = IndividualMenuButton("Custom Levels", "CL Button");
+            clbutton.GetComponent<MenuButtonHolder>().ForceVisible();
 
             clbutton.GetComponent<MenuButtonHolder>().onClickEvent.RemoveAllListeners();
             clbutton.transform.Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
