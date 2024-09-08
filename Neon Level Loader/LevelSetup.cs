@@ -46,7 +46,9 @@ namespace RMMBY.NeonLevelLoader
         {
             if (!(tpStart.GetComponent<AudioSource>().clip != null))
             {
-                Singleton<Game>.Instance.GetGameData().campaigns[2].missionData[0].levels[0].music = "MUSIC_GAMEPLAY_GLASSOCEAN";
+                GameData gd = Singleton<Game>.Instance.GetGameData();
+                LevelData customLevel = gd.campaigns[2].missionData[0].levels[0];   
+                Singleton<Game>.Instance.GetGameData().campaigns[2].missionData[0].levels[0].music = customLevel.music;
                 return;
             }
 

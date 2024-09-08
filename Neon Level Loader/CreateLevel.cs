@@ -122,6 +122,7 @@ namespace RMMBY.NeonLevelLoader
             customLevel.timeSilver = float.Parse(meta.SilverTime);
             customLevel.timeSilver_Switch = float.Parse(meta.SilverTime);
             customLevel.useBookOfLifeLevelGoal = meta.Boof;
+            customLevel.music = meta.Music;
         }
 
         public static string[] GetEnvironment(int type)

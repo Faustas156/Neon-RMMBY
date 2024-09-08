@@ -7,6 +7,7 @@
         public string AceTime { get; set; }
         public string GoldTime { get; set; }
         public string SilverTime { get; set; }
+        public string Music { get; set; } = "MUSIC_GAMEPLAY_GLASSOCEAN";
         public int EnvironmentType { get; set; }
         public bool Boof { get; set; }
 
