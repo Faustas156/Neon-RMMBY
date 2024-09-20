@@ -24,7 +24,6 @@ namespace RMMBY
         {
             buttonPrefab = GameObject.Find("ButtonPrefab");
             buttonHolder = GameObject.Find("Buttons");
-            CreateButtons();
             GetMenus();
             ToggleMenu(0);
             currentMenu = 0;
@@ -37,32 +36,10 @@ namespace RMMBY
             titlePanel.SetActive(false);
         }
 
-
-        private void CreateButtons()
-        {
-            for (int i = 0; i < Metadata.Count; i++)
-            {
-                GameObject button = GameObject.Instantiate(buttonPrefab);
-                button.transform.SetParent(buttonHolder.transform);
-                button.transform.SetSiblingIndex(i);
-                button.transform.localPosition = new Vector3(currentX, currentY, 0);
-                if (i != 0)
-                {
-                    button.transform.Find("Highlight").gameObject.SetActive(false);
-                }  
-
-                button.AddComponent<ModToggleButton>();
-
-                buttons.Add(button);
-            }
-        }
-
-
         private void GetMenus()
         {
             menus.Clear();
             menus.Add(GameObject.Find("ModSelectionMenu"));
-            menus.Add(GameObject.Find("ModSettingsMenu"));
         }
 
         private void ToggleMenu(int menuID)

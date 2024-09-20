@@ -8,6 +8,7 @@
         public string GoldTime { get; set; }
         public string SilverTime { get; set; }
         public string Music { get; set; } = "MUSIC_GAMEPLAY_GLASSOCEAN";
+        public string CollectibleGift { get; set; } = "VIOLET";
         public int EnvironmentType { get; set; }
         public bool Boof { get; set; }
 

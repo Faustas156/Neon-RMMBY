@@ -79,7 +79,7 @@ namespace RMMBY.NeonLevelLoader
             currentY = buttonStart.y;   
             currentX = buttonStart.x;
             buttonPrefab = GameObject.Find("ButtonPrefab");
-            buttonHolder = GameObject.Find("ModSelectionMenu").transform.Find("Mask").Find("Buttons").gameObject;
+            buttonHolder = GameObject.Find("ModSelectionMenu").transform.Find("Mask").Find("Buttons").gameObject; // button handling (levels, etc)
             CreateButtons();
 
             modmenu = GameObject.Find("ModMenu").GetComponent<Canvas>();
@@ -91,7 +91,7 @@ namespace RMMBY.NeonLevelLoader
             titlePanel.SetActive(false);
 
             GameObject.Find("Audio").GetComponent<Audio>().StopAll(0);
-            GameObject.Find("Audio").GetComponent<Audio>().PlayMusic("MUSIC_STORY_RAVE");
+            GameObject.Find("Audio").GetComponent<Audio>().PlayMusic("MUSIC_STORY_RAVE");   
         }
 
         public void Update()

@@ -80,8 +80,8 @@ namespace RMMBY.NeonLevelLoader
             {
 
                 LevelSetup.Setup();
-                LoggerInstance.Msg("Setting Up Level"); //just do this once, it keeps spamming logs lol
-                ToggleLeaderboardUpload(true);          //sus
+                LoggerInstance.Msg("Setting Up Level");
+                ToggleLeaderboardUpload(true);
                 SetCustomLevelButtons();
             }
             else if (resultsButtons != null && resultsButtons.Length != 0)
@@ -208,7 +208,7 @@ namespace RMMBY.NeonLevelLoader
             }
         }
 
-        public override void OnUpdate() //this seems to cause a lot of issues lol
+        public override void OnUpdate()
         {
             if (inMenu)
             {
@@ -227,6 +227,8 @@ namespace RMMBY.NeonLevelLoader
             {
                 ButtonGenerators.CreatePause();
             }
+
+            //if (pauseButtons[1].activeSelf || resultsButtons[1].activeSelf) SetCustomLevelButtons();
 
             if (Singleton<Game>.Instance.GetCurrentLevel().levelID == LevelID() && (pauseButtons[1].activeSelf || resultsButtons[1].activeSelf)) SetCustomLevelButtons();
         }

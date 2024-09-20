@@ -51,7 +51,8 @@ namespace RMMBY
             base.OnSceneWasLoaded(buildIndex, sceneName);
 
             // em stands for "enabled mods"
-            if (em == null)
+            //this is a pretty important if statement, without it, entire screen ends up like that one neonnetwork problem lol
+            if (em == null) 
             {
                 em = new GameObject().AddComponent<EnabledMods>();
                 em.name = "RMMBY";
@@ -76,22 +77,23 @@ namespace RMMBY
 
                 inputHandler.OnSceneLoaded();
                 inputHandler.active = true;
-            } else if (sceneName == "RMMBYInfo")
-            {
-                GameObject go = new GameObject();
-                go.AddComponent<InfoMenuHandler>();
+            } 
+            //else if (sceneName == "RMMBYInfo")
+            //{
+            //    GameObject go = new GameObject();
+            //    go.AddComponent<InfoMenuHandler>();
 
-                inputHandler.OnSceneLoaded();
-                inputHandler.active = true;
+            //    inputHandler.OnSceneLoaded();
+            //    inputHandler.active = true;
 
-                inInfo = true;
-            }
+            //    inInfo = true;
+            //}
             else
             {
                 inputHandler.active = false;
             }
 
-            if(sceneName == "Menu")
+            if (sceneName == "Menu")
             {
                 if (!ListenToLoadMenu.setMenuFunction) return;
 
@@ -105,26 +107,12 @@ namespace RMMBY
         {
             base.OnUpdate();
 
-            if (inInfo) SetInfo();
+            if (inInfo) 
 
             if (inScene && ListenToLoadMenu.runOnUpdate)
             {
                 ListenToLoadMenu.OnSceneUpdate();
             }
-        }
-
-        public void SetInfo()
-        {
-            if (!GameObject.FindObjectOfType<InfoMenuHandler>()) return;
-
-            switch (infoType)
-            {
-                case 0:
-                    GameObject.FindObjectOfType<InfoMenuHandler>().SetupRestart(infoText);
-                    break;
-            }
-
-            inInfo = false;
         }
     }
 }

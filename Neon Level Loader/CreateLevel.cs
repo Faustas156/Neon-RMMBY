@@ -9,11 +9,13 @@ namespace RMMBY.NeonLevelLoader
         public static LevelData CreateLevelData()
         {
             string[] environment = new string[2];
-            environment[0] = "Location_Game_GlassPort";
+            environment[0] = "Interface/LOCATION_GLASSPORT";
             environment[1] = "Content/Levels/Skyworld/GlassPort_Environment_Base";
             LevelData levelData = (LevelData)LevelData.CreateInstance("LevelData");
             levelData.name = "Level_Custom";
             levelData.ambience = "Bed_Wind_Water_Light";
+            //levelData.collectibleGiftForCharacter.ID = "VIOLET"; 
+            levelData.collectiblePortalData = new EnvironmentPortal.EnvironmentPortalData();
             levelData.conversationAfterLevel = "";
             levelData.conversationBeforeLevel = "";
             levelData.difficultyRating = 1;
@@ -108,8 +110,10 @@ namespace RMMBY.NeonLevelLoader
 
             LevelData customLevel = gd.campaigns[2].missionData[0].levels[0];
 
+            //customLevel.environmentLocationData = environment[2]; 
             customLevel.environmentLocationData.locationName = environment[0];
             customLevel.environmentScene = new SceneField(null, environment[1]);
+            //customLevel.environmentLocationData.locationID = environment[2];
 
             customLevel.levelDisplayName = meta.Title;
             customLevel.levelID = Melon<Plugin>.Instance.LevelID();
@@ -123,6 +127,7 @@ namespace RMMBY.NeonLevelLoader
             customLevel.timeSilver_Switch = float.Parse(meta.SilverTime);
             customLevel.useBookOfLifeLevelGoal = meta.Boof;
             customLevel.music = meta.Music;
+            //customLevel.collectibleGiftForCharacter.ID = meta.CollectibleGift;
         }
 
         public static string[] GetEnvironment(int type)
@@ -132,87 +137,108 @@ namespace RMMBY.NeonLevelLoader
             switch (type)
             {
                 case 0:
-                    environment[0] = "Location_Game_Sheol";
+                    environment[0] = "Interface/LOCATION_SHEOL";
+                    //environment[2] = "Location_Game_Sheol";
                     environment[1] = "Content/Levels/Afterlife/Afterlife_Environment_Green";
                     break;
                 case 1:
-                    environment[0] = "Location_Game_Sheol";
+                    environment[0] = "Interface/LOCATION_SHEOL";
+                    //environment[2] = "Location_Game_Sheol";
                     environment[1] = "Content/Levels/Afterlife/Afterlife_Environment_Red";
                     break;
                 case 2:
-                    environment[0] = "Location_Game_Sheol";
+                    environment[0] = "Interface/LOCATION_SHEOL";
+                    //environment[2] = "Location_Game_Sheol";
                     environment[1] = "Content/Levels/Afterlife/Afterlife_Environment_Violet";
                     break;
                 case 3:
-                    environment[0] = "Location_Game_Sheol";
+                    environment[0] = "Interface/LOCATION_SHEOL";
+                    //environment[2] = "Location_Game_Sheol";
                     environment[1] = "Content/Levels/Afterlife/Afterlife_Environment_Yellow";
                     break;
                 case 4:
-                    environment[0] = "Location_Game_Apocalypse";
+                    environment[0] = "Interface/LEVELNAME_SIDEQUEST_GREEN_MEMORY";
+                    //environment[2] = "Location_Game_Apocalypse";
                     environment[1] = "Content/Levels/Skyworld/Apocalypse_Environment_Base";
                     break;
                 case 5:
-                    environment[0] = "Location_Game_GlassPort";
+                    environment[0] = "Interface/LOCATION_GLASSPORT";
+                    //environment[2] = "Location_Game_GlassPort";
                     environment[1] = "Content/Levels/Skyworld/GlassPort_Environment_Base";
                     break;
                 case 6:
-                    environment[0] = "Location_Game_ThirdTemple_Exterior";
+                    environment[0] = "Interface/LOCATION_THIRDTEMPLE";
+                    //environment[2] = "Location_Game_ThirdTemple_Exterior";
                     environment[1] = "Content/Levels/Skyworld/GodTemple_Environment_Base";
                     break;
                 case 7:
-                    environment[0] = "Location_Game_ThirdTemple_Exterior";
+                    environment[0] = "Interface/LOCATION_THIRDTEMPLE";
+                    //environment[2] = "Location_Game_ThirdTemple_Exterior";
                     environment[1] = "Content/Art/TEST/GodTemple_InteriorLighting_Test";
                     break;
                 case 20:
-                    environment[0] = "Location_Game_GlassPort_Climax";
+                    environment[0] = "Interface/LOCATION_GLASSPORT";
+                    //environment[2] = "Location_Game_GlassPort_Climax";
                     environment[1] = "Content/Levels/Skyworld/HandOfGod_Environment_Base_LOOKDEV";
                     break;
                 case 8:
-                    environment[0] = "Location_Game_HangingGardens";
+                    environment[0] = "Interface/LOCATION_HANGINGGARDENS";
+                    //environment[2] = "Location_Game_HangingGardens";
                     environment[1] = "Content/Levels/Skyworld/HangingGarden_Environment_Base";
                     break;
                 case 9:
-                    environment[0] = "Location_Game_HangingGardens";
+                    environment[0] = "Interface/LOCATION_HANGINGGARDENS";
+                    //environment[2] = "Location_Game_HangingGardens";
                     environment[1] = "Content/Levels/Skyworld/HangingGarden_Bleak_Environment_Base";
                     break;
                 case 10:
-                    environment[0] = "Location_Game_HeavensEdge";
+                    environment[0] = "Interface/LOCATION_HEAVENSEDGE";
+                    //environment[2] = "Location_Game_HeavensEdge";
                     environment[1] = "Content/Levels/Skyworld/HeavensEdge_Environment_Base";
                     break;
                 case 11:
-                    environment[0] = "Location_Game_HeavensEdge";
+                    environment[0] = "Interface/LOCATION_HEAVENSEDGE";
+                    //environment[2] = "Location_Game_HeavensEdge";
                     environment[1] = "Content/Levels/Skyworld/HeavensEdgeTwilight_Environment_Base";
                     break;
                 case 12:
-                    environment[0] = "Location_Game_GlassPort";
+                    environment[0] = "Interface/LOCATION_GLASSPORT";
+                    //environment[2] = "Location_Game_GlassPort";
                     environment[1] = "Content/Levels/Skyworld/Heaven_Environment_Base";
                     break;
                 case 13:
-                    environment[0] = "Location_Game_GlassPort";
+                    environment[0] = "Interface/LOCATION_GLASSPORT";
+                    //environment[2] = "Location_Game_GlassPort";
                     environment[1] = "Content/Levels/Skyworld/Holy_Environment_Base";
                     break;
                 case 14:
-                    environment[0] = "Location_Game_LowerHeaven";
+                    environment[0] = "Interface/LOCATION_LOWERHEAVEN";
+                    //environment[2] = "Location_Game_LowerHeaven";
                     environment[1] = "Content/Levels/Skyworld/LowerHeaven_Environment_Base";
                     break;
                 case 15:
-                    environment[0] = "Location_Game_LowerHeaven";
+                    environment[0] = "Interface/LOCATION_LOWERHEAVEN";
+                    //environment[2] = "Location_Game_LowerHeaven";
                     environment[1] = "Content/Levels/Skyworld/LowerHeavenCloudy_Environment_Base";
                     break;
                 case 16:
-                    environment[0] = "Location_Game_LowerHeaven";
+                    environment[0] = "Interface/LOCATION_LOWERHEAVEN";
+                    //environment[2] = "Location_Game_LowerHeaven";
                     environment[1] = "Content/Levels/Skyworld/LowerHeavenOvercast_Environment_Base";
                     break;
                 case 17:
-                    environment[0] = "Location_Game_OldCity";
+                    environment[0] = "Interface/LOCATION_OLDCITY";
+                    //environment[2] = "Location_Game_OldCity";
                     environment[1] = "Content/Levels/Skyworld/OldCity_Environment_Base";
                     break;
                 case 18:
-                    environment[0] = "Location_Game_GlassPort";
+                    environment[0] = "Interface/LOCATION_GLASSPORT";
+                    //environment[2] = "Location_Game_GlassPort";
                     environment[1] = "Content/Levels/Skyworld/Origin_Environment_Base";
                     break;
                 case 19:
-                    environment[0] = "Location_Game_GlassPort";
+                    environment[0] = "Interface/LOCATION_GLASSPORT";
+                    //environment[2] = "Location_Game_GlassPort";
                     environment[1] = "Content/Levels/Skyworld/Origin_Environment_Underwater_Cutscene";
                     break;
             }

@@ -101,4 +101,7 @@
     <Compile Include="Helpers\WriteToFile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\Neon White\Mods" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
