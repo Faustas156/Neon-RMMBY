@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MelonLoader;
+using System.Collections.Generic;
 using System.IO;
-using MelonLoader;
 
 namespace RMMBY.Helpers
 {
@@ -47,7 +47,8 @@ namespace RMMBY.Helpers
                     //Stop reading the file
                     r.Close();
                 }
-            } catch { result = "INVALID DATA TYPE"; }
+            }
+            catch { result = "INVALID DATA TYPE"; }
 
             return result;
         }
@@ -85,7 +86,8 @@ namespace RMMBY.Helpers
                     r.Close();
                 }
             }
-            catch {
+            catch
+            {
                 list = new List<string>
                 {
                     "INVALID DATA TYPE"
@@ -134,7 +136,9 @@ namespace RMMBY.Helpers
                     //Stop reading the file
                     r.Close();
                 }
-            } catch {
+            }
+            catch
+            {
                 list = new List<string>
                 {
                     "INVALID DATA TYPE"
@@ -173,7 +177,8 @@ namespace RMMBY.Helpers
                     r.Close();
                 }
             }
-            catch {
+            catch
+            {
                 list = new List<string>
                 {
                     "INVALID DATA TYPE"

@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using MelonLoader;
 using RMMBY;
-using MelonLoader;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 [assembly: MelonInfo(typeof(Plugin), "Neon RMMBY", "1.2.0", "Faustas & Makarew")]
 

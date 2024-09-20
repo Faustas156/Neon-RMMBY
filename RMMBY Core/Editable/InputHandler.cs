@@ -24,14 +24,14 @@ namespace RMMBY.Editable
         // End Of Required Variables
 
         // Game Specific Input System
-        
+
 
         // Runs The First Frame After This Input Handler Is Created
         private void Start()
         {
             // Example Code For RWBY: Arrowfell
             // Replace Or Remove For New Game's Input System
-            
+
         }
 
         // Only Runs When The RMMBY Mod Menu Is Loaded

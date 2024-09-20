@@ -1,14 +1,4 @@
-﻿using HarmonyLib;
-using UnityEngine;
-using System;
-
-using TMPro;
-using UnityEngine.UI;
-using System.Reflection;
-using System.Collections.Generic;
-using MelonLoader;
-
-namespace RMMBY.Editable
+﻿namespace RMMBY.Editable
 {
     public class ListenToLoadMenu
     {
@@ -24,11 +14,6 @@ namespace RMMBY.Editable
 
         public static void OnSceneUpdate()
         {
-        }
-
-        public static void LoadMenu()
-        {
-            LoadModMenu.CheckForBundle("RMMBYModMenu");
         }
     }
 }

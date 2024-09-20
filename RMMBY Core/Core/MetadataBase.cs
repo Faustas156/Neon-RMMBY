@@ -1,6 +1,6 @@
-﻿﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace RMMBY
 {
@@ -11,12 +11,7 @@ namespace RMMBY
         public string Version { get; set; } = "N/A";
         public string Author { get; set; } = "N/A";
         public List<string> Modules { get; set; }
-        public string SettingsFile { get; set; } = "N/A";
-        public string ConfigFile { get; set; } = "N/A";
         public string Type { get; set; } = "Plugin";
-        public bool CustomMenu { get; set; } = false;
-        public bool RequiresRestartToUnload { get; set; } = false;
-        public string UpdateURL { get; set; } = "N/A";
         public string Location { get; private set; }
         public MetadataState State { get; private set; } = MetadataState.Success;
 
@@ -40,7 +35,7 @@ namespace RMMBY
                     }
                 }
             }
-            catch (JsonReaderException exception)
+            catch (JsonReaderException)
             {
                 t = default(T);
                 t.Title = Path.GetFileName(Path.GetDirectoryName(path));

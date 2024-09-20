@@ -2,7 +2,6 @@
 using RMMBY.Helpers;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 namespace RMMBY
@@ -24,13 +23,14 @@ namespace RMMBY
 
             string datapath = DataReader.ReadData("datapath");
 
-            if(datapath == "INVALID DATA TYPE")
+            if (datapath == "INVALID DATA TYPE")
             {
                 List<string> lines = new List<string>();
                 lines.Add(string.Concat("datapath;", path));
 
                 WriteToFile.WriteFile(path, lines.ToArray(), true);
-            } else if(datapath != path)
+            }
+            else if (datapath != path)
             {
                 WriteToFile.ReplaceLine(path, datapath, path, 1, false);
                 RemoveAllEnabledPaths();

@@ -13,7 +13,7 @@ namespace RMMBY.Helpers
 
             foreach (GameObject obj in objects)
             {
-                if(obj.name == name)
+                if (obj.name == name)
                 {
                     list.Add(obj);
                 }
