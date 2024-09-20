@@ -16,7 +16,6 @@ namespace RMMBY
         {
             DontDestroyOnLoad(this);
             GetPath();
-            GetEnabledPaths();
         }
 
         public void GetPath()
@@ -38,38 +37,6 @@ namespace RMMBY
             }
         }
 
-        public void GetEnabledPaths()
-        {
-            enabledPaths.Clear();
-
-            enabledPaths = DataReader.ReadDataAll("enabledmod").ToList();
-        }
-
-        internal void AddNewEnabledPath(string newpath)
-        {
-            if (CheckEnabled(newpath)) return;
-
-            for (int i = 0; i < enabledPaths.Count; i++)
-            {
-                if (enabledPaths[i] == newpath) return;
-            }
-
-            WriteToFile.WriteFile(path, new string[1] { "enabledmod;" + newpath }, true);
-
-            GetEnabledPaths();
-
-        }
-
-        internal void RemoveEnabledPath(string newpath)
-        {
-            if (!CheckEnabled(newpath)) return;
-
-            WriteToFile.ReplaceLine(path, newpath, "", 1, true);
-
-            GetEnabledPaths();
-
-        }
-
         internal void RemoveAllEnabledPaths()
         {
             string[] data = DataReader.ReadAllData();
@@ -80,19 +47,6 @@ namespace RMMBY
             {
                 WriteToFile.ReplaceLine(path, "enabledmod", "", 0, true);
             }
-        }
-
-        public bool CheckEnabled(string newpath)
-        {
-            for (int i = 0; i < enabledPaths.Count; i++)
-            {
-                if (enabledPaths[i] == newpath)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

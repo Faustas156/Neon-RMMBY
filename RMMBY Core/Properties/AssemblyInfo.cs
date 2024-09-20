@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using RMMBY;
 using MelonLoader;
 
-[assembly: MelonInfo(typeof(Plugin), "Neon RMMBY", "1.1.0", "Makarew")]
+[assembly: MelonInfo(typeof(Plugin), "Neon RMMBY", "1.2.0", "Faustas & Makarew")]
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information

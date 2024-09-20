@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Program Files (x86)\Steam\steamapps\common\Neon White\Neon White_Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RMMBY.NeonLevelLoader">
+      <HintPath>..\Neon Level Loader\bin\Debug\RMMBY.NeonLevelLoader.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -84,7 +87,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\InfoMenuHandler.cs" />
     <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Editable\InputHandler.cs" />
     <Compile Include="Editable\ListenToLoadMenu.cs" />
@@ -93,7 +95,6 @@
     <Compile Include="Core\MetadataBase.cs" />
     <Compile Include="Core\MetadataState.cs" />
     <Compile Include="Core\ModMenuHandler.cs" />
-    <Compile Include="Core\ModToggleButton.cs" />
     <Compile Include="Core\Plugin.cs" />
     <Compile Include="Helpers\DataReader.cs" />
     <Compile Include="Helpers\ObjectFinders.cs" />

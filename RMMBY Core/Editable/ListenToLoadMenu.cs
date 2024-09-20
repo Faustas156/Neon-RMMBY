@@ -16,7 +16,7 @@ namespace RMMBY.Editable
         public static bool runOnUpdate = true;
         public static string sceneToReturnTo = "Menu";
 
-        public static bool setMenuFunction = false;
+        public static bool setMenuFunction = true;
 
         public static void OnSceneStart()
         {
@@ -29,10 +29,6 @@ namespace RMMBY.Editable
         public static void LoadMenu()
         {
             LoadModMenu.CheckForBundle("RMMBYModMenu");
-        }
-
-        public static void UpdateForMods()
-        {
         }
     }
 }

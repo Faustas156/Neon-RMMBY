@@ -10,13 +10,11 @@ namespace RMMBY
 {
     public class Plugin : MelonMod
     {
-        private bool inScene;
         private EnabledMods em;
         private InputHandler inputHandler;
 
         private string infoText = "";
         private int infoType;
-        private bool inInfo;
 
         private bool inMenu;
 
@@ -38,14 +36,6 @@ namespace RMMBY
             }
         }
 
-        public override void OnInitializeMelon()
-        {
-            base.OnInitializeMelon();
-
-            //ShowWindow(GetConsoleWindow(), 0);
-            //consoleHidden = true;
-        }
-
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             base.OnSceneWasLoaded(buildIndex, sceneName);
@@ -60,16 +50,6 @@ namespace RMMBY
                 inputHandler = em.gameObject.GetComponent<InputHandler>();
             }
 
-            if (sceneName == ListenToLoadMenu.sceneToListen)
-            {
-                inScene = true;
-                ListenToLoadMenu.OnSceneStart();
-            }
-            else
-            {
-                inScene = false;
-            }
-
             if (sceneName == "RMMBYModMenu")
             {
                 GameObject go = new GameObject();
@@ -78,16 +58,7 @@ namespace RMMBY
                 inputHandler.OnSceneLoaded();
                 inputHandler.active = true;
             } 
-            //else if (sceneName == "RMMBYInfo")
-            //{
-            //    GameObject go = new GameObject();
-            //    go.AddComponent<InfoMenuHandler>();
 
-            //    inputHandler.OnSceneLoaded();
-            //    inputHandler.active = true;
-
-            //    inInfo = true;
-            //}
             else
             {
                 inputHandler.active = false;
@@ -97,21 +68,7 @@ namespace RMMBY
             {
                 if (!ListenToLoadMenu.setMenuFunction) return;
 
-                ListenToLoadMenu.UpdateForMods();
-
                 inMenu = true;
-            }
-        }
-
-        public override void OnUpdate()
-        {
-            base.OnUpdate();
-
-            if (inInfo) 
-
-            if (inScene && ListenToLoadMenu.runOnUpdate)
-            {
-                ListenToLoadMenu.OnSceneUpdate();
             }
         }
     }
