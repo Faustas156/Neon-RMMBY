@@ -31,6 +31,7 @@ namespace RMMBY.NeonLevelLoader
 
         public GameObject resultsLeader;
         public GameObject stagingLeader;
+        public GameObject levelName;
         public GameObject levelTitle;
         public GameObject levelEnvironment;
 
@@ -65,11 +66,6 @@ namespace RMMBY.NeonLevelLoader
             GarbageCollector.GCMode = GarbageCollector.Mode.Manual; 
             GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
             GCSettings.LatencyMode = GCLatencyMode.Interactive;
-        }
-
-        public override void OnApplicationQuit()
-        {
-            base.OnApplicationQuit();
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
@@ -164,12 +160,13 @@ namespace RMMBY.NeonLevelLoader
                 catch { }
             }
 
-            if (stagingLeader == null)
+            if (stagingLeader == null) //fix this whenever possible, very faulty patching but it is what it is
             {
                 try
                 {
                     stagingLeader = GameObject.Find("Ingame Menu").transform.Find("Menu Holder").Find("Staging Panel").Find("Leaderboards And LevelInfo").Find("Leaderboards").gameObject;
                     levelTitle = stagingLeader.transform.parent.parent.Find("Level Title").gameObject;
+                    levelName = stagingLeader.transform.parent.Find("Level Panel/Info Holder/Stats/Level Name").gameObject;
                     levelEnvironment = levelTitle.transform.parent.Find("Level Environment").gameObject;
                 }
                 catch { }
@@ -365,20 +362,9 @@ namespace RMMBY.NeonLevelLoader
             {
                 if (SceneManager.GetActiveScene().name == "CustomLevel")
                 {
+                    Melon<Plugin>.Instance.levelName.GetComponent<TMP_Text>().text = Melon<Plugin>.Instance.currentLevel.Title;
                     Melon<Plugin>.Instance.levelTitle.GetComponent<TMP_Text>().text = Melon<Plugin>.Instance.currentLevel.Title;
                     Melon<Plugin>.Instance.levelEnvironment.GetComponent<TMP_Text>().text = "DISTRICT: " + LevelSetup.GetDistrictName(Melon<Plugin>.Instance.currentLevel.EnvironmentType);
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(MenuScreenTitle), "OnSetVisible", new Type[] { typeof(bool) })]
-        private static class TitlePatch
-        {
-            private static void Postfix()
-            {
-                if (!GameObject.Find("CL Button"))
-                {
-
                 }
             }
         }

@@ -10,8 +10,6 @@ namespace RMMBY
         public string Description { get; set; } = "N/A";
         public string Version { get; set; } = "N/A";
         public string Author { get; set; } = "N/A";
-        public List<string> Modules { get; set; }
-        public string Type { get; set; } = "Plugin";
         public string Location { get; private set; }
         public MetadataState State { get; private set; } = MetadataState.Success;
 
@@ -22,18 +20,6 @@ namespace RMMBY
             {
                 t = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
                 t.Location = Path.GetDirectoryName(path);
-                if (t.Type == "Plugin")
-                {
-                    for (int i = 0; i < t.Modules.Count; i++)
-                    {
-                        string text = t.Modules[i] = Path.Combine(t.Location, t.Modules[i]);
-                        bool flag = !File.Exists(text);
-                        if (flag)
-                        {
-                            t.State = MetadataState.NoModule;
-                        }
-                    }
-                }
             }
             catch (JsonReaderException)
             {

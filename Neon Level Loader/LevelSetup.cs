@@ -227,6 +227,7 @@ namespace RMMBY.NeonLevelLoader
 
         public static void UISetup()
         {
+            GameObject.Find("Level Name").GetComponent<TMP_Text>().text = Melon<Plugin>.Instance.currentLevel.Title;
             GameObject.Find("Level Title").GetComponent<TMP_Text>().text = Melon<Plugin>.Instance.currentLevel.Title;
             GameObject.Find("Level Environment").GetComponent<TMP_Text>().text = GetDistrictName(Melon<Plugin>.Instance.currentLevel.EnvironmentType);
 
